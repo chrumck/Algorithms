@@ -20,7 +20,7 @@ public class TestsPercolation {
     }
 
     @Test
-    public void Percolation_throwsIfNlessThan1(){
+    public void Percolation_throwsIfNlessThan1() {
         try {
             perc = new Percolation(0);
         } catch (IllegalArgumentException e) {
@@ -28,6 +28,132 @@ public class TestsPercolation {
             return;
         }
         assertTrue(false);
+    }
+
+    @Test
+    public void Percolation_acceptsNEquals1() {
+        perc = new Percolation(1);
+        assertFalse(perc.isOpen(1,1));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_isOpen_ThrowsIfiTooSmall() {
+        try {
+            perc.isOpen(0, 1);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("i or j out of range"));
+            return;
+        }
+        assertTrue(false);
+    }
+
+    @Test
+    public void Percolation_isOpen_ThrowsIfiTooLarge() {
+        try {
+            perc.isOpen(N + 1, 1);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("i or j out of range"));
+            return;
+        }
+        assertTrue(false);
+    }
+
+    @Test
+    public void Percolation_isOpen_ThrowsIfjTooSmall() {
+        try {
+            perc.isOpen(1, 0);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("i or j out of range"));
+            return;
+        }
+        assertTrue(false);
+    }
+
+    @Test
+    public void Percolation_isOpen_ThrowsIfjTooLarge() {
+        try {
+            perc.isOpen(1, N + 1);
+        } catch (IllegalArgumentException e) {
+            assertTrue(e.getMessage().contains("i or j out of range"));
+            return;
+        }
+        assertTrue(false);
+    }
+
+    @Test
+    public void Percolation_open_worksForNEquals1() {
+        perc = new Percolation(1);
+        perc.open(1,1);
+        assertTrue(perc.isOpen(1,1));
+        assertTrue(perc.isFull(1,1));
+        assertTrue(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndDoesConnnectToClosed() {
+        perc.open(2,3);
+        assertTrue(perc.isOpen(2,3));
+        assertFalse(perc.isFull(2,3));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndConnnectsToOpenTop() {
+        perc.open(2,2);
+        perc.open(2,3);
+        assertTrue(perc.isOpen(2,2));
+        assertTrue(perc.isOpen(2,3));
+        assertFalse(perc.isFull(2,2));
+        assertFalse(perc.isFull(2,3));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndConnnectsToOpenTopPercolates() {
+        perc.open(2,1);
+        perc.open(2,2);
+        perc.open(2,3);
+        assertTrue(perc.isOpen(2,1));
+        assertTrue(perc.isOpen(2,2));
+        assertTrue(perc.isOpen(2,3));
+        assertFalse(perc.isOpen(1,3));
+        assertTrue(perc.isFull(2,1));
+        assertTrue(perc.isFull(2,2));
+        assertTrue(perc.isFull(2,3));
+        assertTrue(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndConnnectsToOpenSide() {
+        perc.open(1,2);
+        perc.open(2,2);
+        perc.open(3,2);
+        assertTrue(perc.isOpen(1,2));
+        assertTrue(perc.isOpen(2,2));
+        assertTrue(perc.isOpen(3,2));
+        assertFalse(perc.isOpen(1,3));
+        assertFalse(perc.isFull(1,2));
+        assertFalse(perc.isFull(2,2));
+        assertFalse(perc.isFull(3,2));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndConnnectsToOpenSidePercolates() {
+        perc.open(1,2);
+        perc.open(2,2);
+        perc.open(3,2);
+        perc.open(1,1);
+        perc.open(3,3);
+        assertTrue(perc.isOpen(1,2));
+        assertTrue(perc.isOpen(2,2));
+        assertTrue(perc.isOpen(3,2));
+        assertFalse(perc.isOpen(1,3));
+        assertTrue(perc.isFull(1,2));
+        assertTrue(perc.isFull(2,2));
+        assertTrue(perc.isFull(3,2));
+        assertTrue(perc.percolates());
     }
 
 }
