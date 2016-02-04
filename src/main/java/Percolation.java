@@ -4,27 +4,28 @@ public class Percolation {
     private WeightedQuickUnionUF sites;
     private int N;
     private boolean[] openSites;
-    private boolean percolates = false;
+    private int[] openBottomSites;
 
-    // create N-by-N grid, with all sites blocked
+    // constructor - create N-by-N grid, with all sites blocked
     public Percolation(int N) {
         if (N < 1) {
             throw new IllegalArgumentException("N has to be larger than 0");
         }
         this.N = N;
-        openSites = new boolean[N * N + 1];
-        sites = new WeightedQuickUnionUF(N * N + 1);
-        for (int i = 1; i < N + 1; i++) {
+        openSites = new boolean[N * N];
+        openBottomSites = new int[0];
+        sites = new WeightedQuickUnionUF(N * N);
+        for (int i = 1; i < N; i++) {
             sites.union(0, i);
         }
     }
 
-    //translate x,y to position in sites
+    //translate (row i, column j) to position in sites
     private int xyTo1D(int i, int j) {
         if (i < 1 || i > N || j < 1 || j > N) {
             throw new IllegalArgumentException("i or j out of range");
         }
-        return j + N * (i - 1);
+        return N * (i - 1) + (j - 1);
     }
 
     // open site (row i, column j) if it is not open already
@@ -43,9 +44,20 @@ public class Percolation {
         if (i < N && openSites[sIndex + N]) {
             sites.union(sIndex + N, sIndex);
         }
-        if (!percolates && sites.connected(sIndex, 0)) {
-            percolates = true;
+        if (i == N) {
+            addSiteToOpenBottomSites(sIndex);
         }
+    }
+
+    //resize openBottomSites and add i to at the end of resized array
+    private void addSiteToOpenBottomSites(int i) {
+        int[] newArray = new int[openBottomSites.length + 1];
+        if (openBottomSites.length > 0) {
+            System.arraycopy(openBottomSites, 0, newArray, 0,
+                    openBottomSites.length);
+        }
+        newArray[openBottomSites.length] = i;
+        openBottomSites = newArray;
     }
 
     // is site (row i, column j) open?
@@ -59,9 +71,13 @@ public class Percolation {
         return openSites[sIndex] && sites.connected(sIndex, 0);
     }
 
-    // does the system percolate?
+    // does the system percolate? - go over openBottomSites and check if any of them is full
     public boolean percolates() {
-        return percolates;
+        for (int i = 0; i < openBottomSites.length; i++) {
+            if (sites.connected(openBottomSites[i], 0)) {
+                return true;
+            }
+        }
+        return false;
     }
-
 }

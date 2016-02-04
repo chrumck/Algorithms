@@ -4,6 +4,7 @@ public class PercolationStats {
     private int N;
     private int T;
     private double[] results;
+    public static final double z95 = 1.96;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T) {
@@ -15,14 +16,31 @@ public class PercolationStats {
         this.results = new double[T];
 
         for (int i = 0; i < T; i++) {
-            int openSitesCount = 0;
-            Percolation perc = new Percolation(N);
-            while (!perc.percolates()) {
-                perc.open(StdRandom.uniform(1, N), StdRandom.uniform(1, N));
-                openSitesCount++;
-            }
-            results[i] = openSitesCount / (N * N);
+            results[i] = getResultFromSingleTest();
         }
+    }
+
+    //runs a single test on an N*N sized percolation grid
+    private double getResultFromSingleTest() {
+        Percolation perc = new Percolation(N);
+        int[] randomInput = getRandomInputArray();
+        for (int i = 0; i < randomInput.length; i++) {
+            perc.open(randomInput[i] / N + 1, randomInput[i] % N + 1);
+            if (perc.percolates()) {
+                return (double)(i + 1) / (N * N);
+            }
+        }
+        throw new IllegalArgumentException("System does not percolate");
+    }
+
+    //generates random input array
+    private int[] getRandomInputArray() {
+        int[] newRandomInput = new int[N * N];
+        for (int i = 0; i < newRandomInput.length; i++) {
+            newRandomInput[i] = i;
+        }
+        StdRandom.shuffle(newRandomInput);
+        return newRandomInput;
     }
 
     // sample mean of percolation threshold
@@ -37,12 +55,12 @@ public class PercolationStats {
 
     // low  endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - 1.96 * stddev() / Math.sqrt(T);
+        return mean() - z95 * stddev() / Math.sqrt(T);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + 1.96 * stddev() / Math.sqrt(T);
+        return mean() + z95 * stddev() / Math.sqrt(T);
     }
 
     // test client
