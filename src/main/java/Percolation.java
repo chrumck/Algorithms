@@ -55,7 +55,8 @@ public class Percolation {
 
     // is site (row i, column j) full?
     public boolean isFull(int i, int j) {
-        return sites.connected(xyTo1D(i, j), 0);
+        int sIndex = xyTo1D(i, j);
+        return openSites[sIndex] && sites.connected(sIndex, 0);
     }
 
     // does the system percolate?

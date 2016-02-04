@@ -19,15 +19,9 @@ public class TestsPercolation {
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void Percolation_throwsIfNlessThan1() {
-        try {
             Percolation perc = new Percolation(0);
-        } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("N has to be larger than 0"));
-            return;
-        }
-        assertTrue(false);
     }
 
     @Test
@@ -37,15 +31,9 @@ public class TestsPercolation {
         assertFalse(perc.percolates());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void Percolation_isOpen_ThrowsIfiTooSmall() {
-        try {
             perc.isOpen(0, 1);
-        } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("i or j out of range"));
-            return;
-        }
-        assertTrue(false);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -53,26 +41,14 @@ public class TestsPercolation {
         perc.isOpen(N + 1, 1);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void Percolation_isOpen_ThrowsIfjTooSmall() {
-        try {
             perc.isOpen(1, 0);
-        } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("i or j out of range"));
-            return;
-        }
-        assertTrue(false);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void Percolation_isOpen_ThrowsIfjTooLarge() {
-        try {
             perc.isOpen(1, N + 1);
-        } catch (IllegalArgumentException e) {
-            assertTrue(e.getMessage().contains("i or j out of range"));
-            return;
-        }
-        assertTrue(false);
     }
 
     @Test
@@ -150,4 +126,27 @@ public class TestsPercolation {
         assertTrue(perc.percolates());
     }
 
+    @Test
+    public void Percolation_open_doesNotBackwash() {
+        perc.open(3,1);
+        perc.open(3,2);
+        perc.open(3,3);
+        perc.open(1,3);
+        assertTrue(perc.isOpen(3,1));
+        assertTrue(perc.isOpen(3,2));
+        assertTrue(perc.isOpen(3,3));
+        assertTrue(perc.isOpen(1,3));
+        assertTrue(perc.isFull(3,1));
+        assertTrue(perc.isFull(3,2));
+        assertTrue(perc.isFull(3,3));
+        assertFalse(perc.isFull(1,3));
+        assertTrue(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_testtest() {
+        Percolation perc = new Percolation(10);
+        perc.open(10,2);
+
+    }
 }
