@@ -15,7 +15,7 @@ public class Percolation {
         openSites = new boolean[N * N + 1];
         sites = new WeightedQuickUnionUF(N * N + 1);
         for (int i = 1; i < N + 1; i++) {
-            sites.union(i, 0);
+            sites.union(0, i);
         }
     }
 
@@ -24,26 +24,26 @@ public class Percolation {
         if (i < 1 || i > N || j < 1 || j > N) {
             throw new IllegalArgumentException("i or j out of range");
         }
-        return i + N * (j - 1);
+        return j + N * (i - 1);
     }
 
     // open site (row i, column j) if it is not open already
     public void open(int i, int j) {
         int sIndex = xyTo1D(i, j);
         openSites[sIndex] = true;
-        if (i > 1 && openSites[sIndex - 1]) {
-            sites.union(sIndex, sIndex - 1);
+        if (j > 1 && openSites[sIndex - 1]) {
+            sites.union(sIndex - 1, sIndex);
         }
-        if (i < N && openSites[sIndex + 1]) {
-            sites.union(sIndex, sIndex + 1);
+        if (j < N && openSites[sIndex + 1]) {
+            sites.union(sIndex + 1, sIndex);
         }
-        if (j > 1 && openSites[sIndex - N]) {
-            sites.union(sIndex, sIndex - N);
+        if (i > 1 && openSites[sIndex - N]) {
+            sites.union(sIndex - N, sIndex);
         }
-        if (j < N && openSites[sIndex + N]) {
-            sites.union(sIndex, sIndex + N);
+        if (i < N && openSites[sIndex + N]) {
+            sites.union(sIndex + N, sIndex);
         }
-        if (!percolates && j == N && sites.connected(sIndex, 0)) {
+        if (!percolates && sites.connected(sIndex, 0)) {
             percolates = true;
         }
     }

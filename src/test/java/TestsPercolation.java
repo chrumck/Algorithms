@@ -71,51 +71,19 @@ public class TestsPercolation {
     @Test
     public void Percolation_open_opensAndConnnectsToOpenTop() {
         perc.open(2, 2);
-        perc.open(2, 3);
-        assertTrue(perc.isOpen(2, 2));
-        assertTrue(perc.isOpen(2, 3));
-        assertFalse(perc.isFull(2, 2));
-        assertFalse(perc.isFull(2, 3));
-        assertFalse(perc.percolates());
-    }
-
-    @Test
-    public void Percolation_open_opensAndConnnectsToOpenTopPercolates() {
-        perc.open(2, 1);
-        perc.open(2, 2);
-        perc.open(2, 3);
-        assertTrue(perc.isOpen(2, 1));
-        assertTrue(perc.isOpen(2, 2));
-        assertTrue(perc.isOpen(2, 3));
-        assertFalse(perc.isOpen(1, 3));
-        assertTrue(perc.isFull(2, 1));
-        assertTrue(perc.isFull(2, 2));
-        assertTrue(perc.isFull(2, 3));
-        assertTrue(perc.percolates());
-    }
-
-    @Test
-    public void Percolation_open_opensAndConnnectsToOpenSide() {
-        perc.open(1, 2);
-        perc.open(2, 2);
         perc.open(3, 2);
-        assertTrue(perc.isOpen(1, 2));
         assertTrue(perc.isOpen(2, 2));
         assertTrue(perc.isOpen(3, 2));
-        assertFalse(perc.isOpen(1, 3));
-        assertFalse(perc.isFull(1, 2));
         assertFalse(perc.isFull(2, 2));
         assertFalse(perc.isFull(3, 2));
         assertFalse(perc.percolates());
     }
 
     @Test
-    public void Percolation_open_opensAndConnnectsToOpenSidePercolates() {
+    public void Percolation_open_opensAndConnnectsToOpenTopPercolates() {
         perc.open(1, 2);
         perc.open(2, 2);
         perc.open(3, 2);
-        perc.open(1, 1);
-        perc.open(3, 3);
         assertTrue(perc.isOpen(1, 2));
         assertTrue(perc.isOpen(2, 2));
         assertTrue(perc.isOpen(3, 2));
@@ -127,26 +95,52 @@ public class TestsPercolation {
     }
 
     @Test
-    public void Percolation_open_doesNotBackwash() {
-        perc.open(3,1);
-        perc.open(3,2);
-        perc.open(3,3);
-        perc.open(1,3);
-        assertTrue(perc.isOpen(3,1));
-        assertTrue(perc.isOpen(3,2));
-        assertTrue(perc.isOpen(3,3));
-        assertTrue(perc.isOpen(1,3));
-        assertTrue(perc.isFull(3,1));
-        assertTrue(perc.isFull(3,2));
-        assertTrue(perc.isFull(3,3));
-        assertFalse(perc.isFull(1,3));
+    public void Percolation_open_opensAndConnnectsToOpenSide() {
+        perc.open(2, 1);
+        perc.open(2, 2);
+        perc.open(2, 3);
+        assertTrue(perc.isOpen(2, 1));
+        assertTrue(perc.isOpen(2, 2));
+        assertTrue(perc.isOpen(2, 3));
+        assertFalse(perc.isOpen(1, 3));
+        assertFalse(perc.isFull(2, 1));
+        assertFalse(perc.isFull(2, 2));
+        assertFalse(perc.isFull(2, 3));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_open_opensAndConnnectsToOpenSidePercolates() {
+        perc.open(2, 1);
+        perc.open(2, 2);
+        perc.open(2, 3);
+        perc.open(1, 1);
+        perc.open(3, 3);
+        assertTrue(perc.isOpen(2, 1));
+        assertTrue(perc.isOpen(2, 2));
+        assertTrue(perc.isOpen(2, 3));
+        assertFalse(perc.isOpen(1, 3));
+        assertTrue(perc.isFull(2, 1));
+        assertTrue(perc.isFull(2, 2));
+        assertTrue(perc.isFull(2, 3));
         assertTrue(perc.percolates());
     }
 
     @Test
-    public void Percolation_open_testtest() {
-        Percolation perc = new Percolation(10);
-        perc.open(10,2);
-
+    public void Percolation_open_doesNotBackwash() {
+        perc.open(1,3);
+        perc.open(2,3);
+        perc.open(3,3);
+        perc.open(3,1);
+        assertTrue(perc.isOpen(1,3));
+        assertTrue(perc.isOpen(2,3));
+        assertTrue(perc.isOpen(3,3));
+        assertTrue(perc.isOpen(3,1));
+        assertTrue(perc.isFull(1,3));
+        assertTrue(perc.isFull(2,3));
+        assertTrue(perc.isFull(3,3));
+        assertFalse(perc.isFull(3,1));
+        assertTrue(perc.percolates());
     }
+
 }
