@@ -31,22 +31,49 @@ public class TestsPercolation {
         assertFalse(perc.percolates());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
+    public void Percolation_acceptsNEquals1Percolates() {
+        Percolation perc = new Percolation(1);
+        perc.open(1,1);
+        assertTrue(perc.isOpen(1, 1));
+        assertTrue(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_acceptsNEquals2() {
+        Percolation perc = new Percolation(2);
+        perc.open(1,1);
+        perc.open(2,2);
+        assertFalse(perc.isOpen(2, 1));
+        assertFalse(perc.percolates());
+    }
+
+    @Test
+    public void Percolation_acceptsNEquals2Percolates() {
+        Percolation perc = new Percolation(2);
+        perc.open(1,1);
+        perc.open(2,2);
+        perc.open(1,2);
+        assertFalse(perc.isOpen(2, 1));
+        assertTrue(perc.percolates());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
     public void Percolation_isOpen_ThrowsIfiTooSmall() {
             perc.isOpen(0, 1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void Percolation_isOpen_ThrowsIfiTooLarge() {
         perc.isOpen(N + 1, 1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void Percolation_isOpen_ThrowsIfjTooSmall() {
             perc.isOpen(1, 0);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void Percolation_isOpen_ThrowsIfjTooLarge() {
             perc.isOpen(1, N + 1);
     }

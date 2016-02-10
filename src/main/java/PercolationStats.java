@@ -1,10 +1,11 @@
-import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.StdRandom;
+import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
+    public static final double Z_95 = 1.96;
     private int N;
     private int T;
     private double[] results;
-    public static final double z95 = 1.96;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T) {
@@ -27,7 +28,7 @@ public class PercolationStats {
         for (int i = 0; i < randomInput.length; i++) {
             perc.open(randomInput[i] / N + 1, randomInput[i] % N + 1);
             if (perc.percolates()) {
-                return (double)(i + 1) / (N * N);
+                return (double) (i + 1) / (N * N);
             }
         }
         throw new IllegalArgumentException("System does not percolate");
@@ -55,12 +56,12 @@ public class PercolationStats {
 
     // low  endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - z95 * stddev() / Math.sqrt(T);
+        return mean() - Z_95 * stddev() / Math.sqrt(T);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + z95 * stddev() / Math.sqrt(T);
+        return mean() + Z_95 * stddev() / Math.sqrt(T);
     }
 
     // test client
