@@ -2,7 +2,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    public static final double Z_95 = 1.96;
+    private static final double Z_95 = 1.96;
     private int N;
     private int T;
     private double[] results;
@@ -64,8 +64,4 @@ public class PercolationStats {
         return mean() + Z_95 * stddev() / Math.sqrt(T);
     }
 
-    // test client
-    public static void main(String[] args) {
-
-    }
 }

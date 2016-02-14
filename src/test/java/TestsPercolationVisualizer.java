@@ -1,9 +1,6 @@
+import org.junit.*;
+import static org.junit.Assert.*;
 import edu.princeton.cs.algs4.*;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.assertTrue;
 
 public class TestsPercolationVisualizer {
     private Percolation perc;
