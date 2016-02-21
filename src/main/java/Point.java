@@ -1,14 +1,14 @@
 /******************************************************************************
- *  Compilation:  javac Point.java
- *  Execution:    java Point
- *  Dependencies: none
- *  
- *  An immutable data type for points in the plane.
- *  For use on Coursera, Algorithms Part I programming assignment.
- *
+ * Compilation:  javac Point.java
+ * Execution:    java Point
+ * Dependencies: none
+ * <p>
+ * An immutable data type for points in the plane.
+ * For use on Coursera, Algorithms Part I programming assignment.
  ******************************************************************************/
 
 import java.util.Comparator;
+
 import edu.princeton.cs.algs4.StdDraw;
 
 public class Point implements Comparable<Point> {
@@ -62,7 +62,7 @@ public class Point implements Comparable<Point> {
         if (this.x == that.x && this.y == that.y) return Double.NEGATIVE_INFINITY;
         if (this.x == that.x) return Double.POSITIVE_INFINITY;
         if (this.y == that.y) return +0;
-        return (double) (that.y - this.y)/(that.x - this.x);
+        return (double) (that.y - this.y) / (that.x - this.x);
     }
 
     /**
@@ -78,7 +78,7 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        if (this.y == that.y)  return this.x - that.x;
+        if (this.y == that.y) return this.x - that.x;
         return this.y - that.y;
     }
 
@@ -93,7 +93,7 @@ public class Point implements Comparable<Point> {
     }
 
     private class SlopeOrder implements Comparator<Point> {
-        public int compare(Point q1, Point q2){
+        public int compare(Point q1, Point q2) {
             double slope1 = slopeTo(q1);
             double slope2 = slopeTo(q2);
             if (slope1 - slope2 < 0) return -1;
