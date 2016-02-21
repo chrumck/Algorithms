@@ -20,9 +20,22 @@ public class TestsBruteCollinearPoints {
         bruteCol = new BruteCollinearPoints(null);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void bruteCol_ThrowsIfNotEnoughPoints() {
-        bruteCol = new BruteCollinearPoints(new Point[0]);
+    @Test
+    public void fastCol_Returns0IfNotEnoutghPts() {
+        bruteCol = new BruteCollinearPoints(new Point[]{
+                new Point(11, 11),
+                new Point(13, 13),
+                new Point(10, 10),
+        });
+        assertEquals(0, bruteCol.numberOfSegments());
+    }
+
+    @Test
+    public void fastCol_Returns0IfNotEnoutghPts2() {
+        bruteCol = new BruteCollinearPoints(new Point[]{
+                new Point(11, 11),
+        });
+        assertEquals(0, bruteCol.numberOfSegments());
     }
 
     @Test(expected = NullPointerException.class)

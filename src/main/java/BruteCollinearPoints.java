@@ -3,32 +3,29 @@ import java.util.Arrays;
 
 public class BruteCollinearPoints {
     private static final int K = 4;     //subset length
-    private ArrayList<LineSegment> segments;
+    private Point[] orgPoints;
+    private ArrayList<LineSegment> segments = new ArrayList<LineSegment>();
 
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
         if (points == null) {
             throw new NullPointerException("points array is null");
         }
-        if (points.length < K) {
-            throw new IllegalArgumentException("point.length < " + K );
-        }
+        orgPoints = Arrays.copyOf(points, points.length);
+        Arrays.sort(orgPoints);
 
-        Arrays.sort(points);
-        segments = new ArrayList<LineSegment>();
-
-        for (int i = 0; i < points.length - 1; i++){
-            if (points[i].compareTo(points[i + 1]) == 0){
-                throw new IllegalArgumentException("points same");
+        for (int i = 0; i < orgPoints.length - 1; i++) {
+            if (orgPoints[i].compareTo(orgPoints[i + 1]) == 0) {
+                throw new IllegalArgumentException("orgPoints same");
             }
-            if (i >= points.length - 3) continue;
+            if (i >= orgPoints.length - 3) continue;
 
-            for (int j = i + 1; j < points.length - 2; j++)
-                for (int k = j + 1; k < points.length - 1; k++)
-                    for (int l = k + 1; l < points.length; l++) {
-                        if (points[i].slopeOrder().compare(points[j], points[k]) == 0 &&
-                                points[j].slopeOrder().compare(points[k], points[l]) == 0) {
-                            segments.add(new LineSegment(points[i], points[l]));
+            for (int j = i + 1; j < orgPoints.length - 2; j++)
+                for (int k = j + 1; k < orgPoints.length - 1; k++)
+                    for (int l = k + 1; l < orgPoints.length; l++) {
+                        if (orgPoints[i].slopeOrder().compare(orgPoints[j], orgPoints[k]) == 0 &&
+                                orgPoints[j].slopeOrder().compare(orgPoints[k], orgPoints[l]) == 0) {
+                            segments.add(new LineSegment(orgPoints[i], orgPoints[l]));
                         }
                     }
         }
@@ -36,7 +33,7 @@ public class BruteCollinearPoints {
 
     // the number of line segments
     public int numberOfSegments() {
-        return  segments.size();
+        return segments.size();
     }
 
     // the line segments
