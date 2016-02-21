@@ -5,14 +5,34 @@ public class FastCollinearPoints {
     private static final int K = 4;     //subset length
     private Point[] orgPoints;
     private Point[] sortedPts;
-    private ArrayList<Point> segments;
+    private ArrayList<LineSegmentExt> segments;
+
+    private class LineSegmentExt extends LineSegment {
+        private Point firstP;
+        private Point secondP;
+
+        public LineSegmentExt(Point p, Point q) {
+            super(p, q);
+            firstP = p;
+            secondP = q;
+        }
+
+        public Point getFirstP() {
+            return firstP;
+        }
+
+        public Point getSecondP() {
+            return secondP;
+        }
+    }
 
     // finds all line segments containing 4 points
     public FastCollinearPoints(Point[] points) {
         if (points == null) {
             throw new NullPointerException("points array is null");
         }
-        segments = new ArrayList<Point>();
+
+        segments = new ArrayList<LineSegmentExt>();
         orgPoints = Arrays.copyOf(points, points.length);
         sortedPts = Arrays.copyOf(points, points.length);
 
@@ -38,36 +58,31 @@ public class FastCollinearPoints {
                     }
                     colPts[colPts.length - 1] = orgPoints[i];
                     Arrays.sort(colPts);
-
-                    if (!segmentExists(colPts[0], colPts[colPts.length - 1])) {
-                        segments.add(colPts[0]);
-                        segments.add(colPts[colPts.length - 1]);
-                    }
+                    LineSegmentExt newSegment = new LineSegmentExt(colPts[0], colPts[colPts.length - 1]);
+                    if (!segmentExists(newSegment)) segments.add(newSegment);
                 }
                 j = k;
             }
         }
     }
 
-    private boolean segmentExists(Point p, Point q) {
-        for (int i = 0; i < segments.size() - 1; i += 2) {
-            if (segments.get(i).compareTo(p) == 0 &&
-                    segments.get(i + 1).compareTo(q) == 0) return true;
+    private final boolean segmentExists(LineSegmentExt newSegment) {
+        for (LineSegmentExt segment : segments) {
+            if (segment.getFirstP().compareTo(newSegment.getFirstP()) == 0 &&
+                    segment.getSecondP().compareTo(newSegment.getSecondP()) == 0) {
+                return true;
+            }
         }
         return false;
     }
 
     // the number of line segments
     public int numberOfSegments() {
-        return segments.size() / 2;
+        return segments.size();
     }
 
     // the line segments
     public LineSegment[] segments() {
-        LineSegment[] segmentsArray = new LineSegment[segments.size() / 2];
-        for (int i = 0; i < segments.size() - 1; i += 2) {
-            segmentsArray[i/2] = new LineSegment(segments.get(i), segments.get(i + 1));
-        }
-        return segmentsArray;
+        return segments.toArray(new LineSegment[0]);
     }
 }
