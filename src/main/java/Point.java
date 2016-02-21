@@ -96,10 +96,6 @@ public class Point implements Comparable<Point> {
         public int compare(Point q1, Point q2){
             double slope1 = slopeTo(q1);
             double slope2 = slopeTo(q2);
-            if (slope1 == Double.NEGATIVE_INFINITY ||
-                    slope2 == Double.NEGATIVE_INFINITY) {
-                throw new IllegalArgumentException("points same");
-            }
             if (slope1 - slope2 < 0) return -1;
             if (slope1 - slope2 > 0) return 1;
             return 0;

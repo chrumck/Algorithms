@@ -16,7 +16,7 @@ public class TestsBruteCollinearPoints {
     }
 
     @Test(expected = NullPointerException.class)
-    public void bruteCol_ThrowsIfNotPointsNull() {
+    public void bruteCol_ThrowsIfPointsNull() {
         bruteCol = new BruteCollinearPoints(null);
     }
 
@@ -120,8 +120,8 @@ public class TestsBruteCollinearPoints {
                 new Point(22,10),
         });
         assertEquals(2, bruteCol.numberOfSegments());
-        assertEquals("(10, 10) -> (13, 13)", bruteCol.segments()[0].toString());
-        assertEquals("(10, 10) -> (22, 10)", bruteCol.segments()[1].toString());
+        assertEquals("(10, 10) -> (22, 10)", bruteCol.segments()[0].toString());
+        assertEquals("(10, 10) -> (13, 13)", bruteCol.segments()[1].toString());
     }
 
     @Test
@@ -138,8 +138,8 @@ public class TestsBruteCollinearPoints {
                 new Point(13,12),
         });
         assertEquals(3, bruteCol.numberOfSegments());
-        assertEquals("(10, 10) -> (13, 13)", bruteCol.segments()[0].toString());
-        assertEquals("(10, 10) -> (13, 10)", bruteCol.segments()[1].toString());
+        assertEquals("(10, 10) -> (13, 10)", bruteCol.segments()[0].toString());
+        assertEquals("(10, 10) -> (13, 13)", bruteCol.segments()[1].toString());
         assertEquals("(13, 10) -> (13, 13)", bruteCol.segments()[2].toString());
     }
 

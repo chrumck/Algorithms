@@ -3,8 +3,6 @@ import java.util.Arrays;
 
 public class BruteCollinearPoints {
     private static final int K = 4;     //subset length
-    private int[] sIdxs;                // current subset indices
-    private final int pointsLength;
     private ArrayList<LineSegment> segments;
 
     // finds all line segments containing 4 points
@@ -15,46 +13,25 @@ public class BruteCollinearPoints {
         if (points.length < K) {
             throw new IllegalArgumentException("point.length < " + K );
         }
-        pointsLength = points.length;
+
+        Arrays.sort(points);
         segments = new ArrayList<LineSegment>();
-        Point[] subArray = new Point[K];
-        while(nextCombination()){
-            for (int i = 0; i < K ; i++) {
-                subArray[i] = points[sIdxs[i]];
-            }
-            if (subArray[3].compareTo(subArray[0]) == 0) {
+
+        for (int i = 0; i < points.length - 1; i++){
+            if (points[i].compareTo(points[i + 1]) == 0){
                 throw new IllegalArgumentException("points same");
             }
-            if (subArray[0].slopeOrder().compare(subArray[1], subArray[2]) == 0 &&
-                    subArray[1].slopeOrder().compare(subArray[2], subArray[3]) == 0 &&
-                    subArray[2].slopeOrder().compare(subArray[3], subArray[0]) == 0) {
-                Arrays.sort(subArray);
-                segments.add(new LineSegment(subArray[0], subArray[3]));
-            }
-        }
-    }
+            if (i >= points.length - 3) continue;
 
-    //iterates over all possible K combinations of points array
-    private boolean nextCombination(){
-        //return 0,1, 2..K-1 for the first time
-        if (sIdxs == null) {
-            sIdxs = new int[K];
-            for (int i = 0; (sIdxs[i] = i) < K - 1; i++) ;
-            return true;
+            for (int j = i + 1; j < points.length - 2; j++)
+                for (int k = j + 1; k < points.length - 1; k++)
+                    for (int l = k + 1; l < points.length; l++) {
+                        if (points[i].slopeOrder().compare(points[j], points[k]) == 0 &&
+                                points[j].slopeOrder().compare(points[k], points[l]) == 0) {
+                            segments.add(new LineSegment(points[i], points[l]));
+                        }
+                    }
         }
-        int i;
-        // find position of item that can be incremented
-        for (i = K - 1; i >= 0 && sIdxs[i] == pointsLength - K + i; i--) ;
-        // return false if all combinations tried
-        if (i < 0) return false;
-        // increment this item if it can be incremented
-        sIdxs[i]++;
-        // fill up remaining items
-        for (++i; i < K; i++) {
-            sIdxs[i] = sIdxs[i - 1] + 1;
-        }
-        //return new combination
-        return true;
     }
 
     // the number of line segments

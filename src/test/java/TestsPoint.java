@@ -156,17 +156,20 @@ public class TestsPoint {
         assertEquals(-1, result);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void Point_SlopeOrder_ThrowsIfQ1SameAsP() {
         Comparator<Point> cmpr = testPoint.slopeOrder();
-        cmpr.compare(new Point(10, 10), new Point(11, 11));
+        int result = cmpr.compare(new Point(10, 10), new Point(11, 11));
+        assertEquals(-1, result, 0.00001);
     }
 
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void Point_SlopeOrder_ThrowsIfQ2SameAsP() {
         Comparator<Point> cmpr = testPoint.slopeOrder();
-        cmpr.compare(new Point(11, 11), new Point(10, 10));
+        int result = cmpr.compare(new Point(11, 11), new Point(10, 10));
+        assertEquals(1, result, 0.00001);
+
     }
 
 
