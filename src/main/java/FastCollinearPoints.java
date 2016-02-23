@@ -39,6 +39,7 @@ public class FastCollinearPoints {
 
         @Override
         public boolean equals(Object obj) {
+            if (obj == this) return true;
             if (obj == null) return false;
             if (!(obj instanceof SegmentKey)) return false;
             SegmentKey that = (SegmentKey) obj;
