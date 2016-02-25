@@ -235,6 +235,7 @@ public class TestsBoard {
         assertEquals(2, twin.manhattan());
     }
 
+
     @Test
     public void fastCol_twin_swapsSecondRow() {
         int[][] blocks = new int[][]{

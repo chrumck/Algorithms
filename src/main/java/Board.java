@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -48,7 +49,12 @@ public class Board {
 
     // does this board equal y?
     public boolean equals(Object y) {
-        return true;
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+        Board that = (Board) y;
+        if (that.m == this.m && Arrays.equals(that.tiles,this.tiles)) return true;
+        return false;
     }
 
     // all neighboring boards
