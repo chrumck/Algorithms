@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Stack;
 
@@ -46,25 +45,35 @@ public class Board {
         return new Board(copy1Dto2D(newTiles));
     }
 
-
     // does this board equal y?
     public boolean equals(Object y) {
         if (y == this) return true;
         if (y == null) return false;
         if (y.getClass() != this.getClass()) return false;
         Board that = (Board) y;
-        if (that.m == this.m && Arrays.equals(that.tiles,this.tiles)) return true;
-        return false;
+        return that.m == this.m && Arrays.equals(that.tiles, this.tiles);
     }
 
     // all neighboring boards
     public Iterable<Board> neighbors() {
-        return new Stack<Board>();
+        int blankPos = getBlankPos();
+        Stack<Board> neighbors = new Stack<Board>();
+        if (blankPos % N != 0) neighbors.add(createNeighbor(blankPos, blankPos - 1));
+        if (blankPos % N != N - 1) neighbors.add(createNeighbor(blankPos, blankPos + 1));
+        if (blankPos / N != 0) neighbors.add(createNeighbor(blankPos, blankPos - N));
+        if (blankPos / N != N - 1) neighbors.add(createNeighbor(blankPos, blankPos + N));
+        return neighbors;
     }
 
     // string representation of this board (in the output format specified below)
     public String toString() {
-        return "";
+        StringBuilder s = new StringBuilder();
+        s.append(N);
+        for (int i = 0; i < N * N; i++) {
+            if (i % N == 0) s.append("\n");
+            s.append(String.format("%2d ", (int) tiles[i]));
+        }
+        return s.toString();
     }
 
     //private methods -------------------------------------------------------------------
@@ -74,7 +83,8 @@ public class Board {
         tiles = new char[N * N];
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                tiles[i * N + j] = (char) blocks[i][j];
+                int tilePos = i * N + j;
+                tiles[tilePos] = (char) blocks[i][j];
             }
         }
         /*
@@ -122,5 +132,20 @@ public class Board {
         char t = array[i];
         array[i] = array[j];
         array[j] = t;
+    }
+
+    //createNeighbor
+    private Board createNeighbor(int i, int j) {
+        char[] newTiles = Arrays.copyOf(tiles, tiles.length);
+        swapTiles(newTiles, i, j);
+        return new Board(copy1Dto2D(newTiles));
+    }
+
+    //getBlankPos
+    private int getBlankPos() {
+        for (int i = 0; i < tiles.length; i++) {
+            if (tiles[i] == 0) return i;
+        }
+        return -1;
     }
 }
