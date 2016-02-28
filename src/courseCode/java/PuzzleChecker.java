@@ -4,7 +4,7 @@
  *  Dependencies: Board.java Solver.java
  *
  *  This program creates an initial board from each filename specified
- *  on the command line and finds the minimum number of moves to
+ *  on the command line and finds the minimum number of priority to
  *  reach the goal state.
  *
  *  % java PuzzleChecker puzzle*.txt
