@@ -82,7 +82,6 @@ public class KdTree {
     public Point2D nearest(Point2D p) {
         if (p == null) throw new NullPointerException("point");
         if (root == null) return null;
-
         nearestP = null;
         nearestDSq = MAX_DISTANCE_SQ;
         queryP = p;
@@ -170,6 +169,9 @@ public class KdTree {
             findNearest(node.lb);
             if (node.rt != null && node.rt.rect.distanceSquaredTo(queryP) < nearestDSq)
                 findNearest(node.rt);
+        }
+        else if (node.rt != null && node.rt.rect.distanceSquaredTo(queryP) < nearestDSq) {
+            findNearest(node.rt);
         }
     }
 

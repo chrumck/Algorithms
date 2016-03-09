@@ -135,4 +135,13 @@ public class TestsKdTree {
         assertEquals(new Point2D(0.50, 0.50), tree.nearest(new Point2D(0.4, 0.4)));
     }
 
+    @Test
+    public void nearest_returnsNearest2() {
+        tree.insert(new Point2D(0.50, 0.50));
+        tree.insert(new Point2D(0.50, 0.75));
+        tree.insert(new Point2D(0.50, 0.25));
+
+        assertEquals(new Point2D(0.50, 0.75), tree.nearest(new Point2D(0.4, 0.75)));
+    }
+
 }
